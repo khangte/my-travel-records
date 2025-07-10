@@ -49,8 +49,8 @@ async def serve_html(filename: str):
     return FileResponse(os.path.join(html_dir, f"{filename}.html"))
 
 @app.post("/upload/{user_num}")
-async def upload_image(user_id: int, file: UploadFile = File(...)):
-    user_dir = os.path.join(uploads_dir, f"user_{user_id}")
+async def upload_image(user_num: int, file: UploadFile = File(...)):
+    user_dir = os.path.join(uploads_dir, f"user_{user_num}")
     os.makedirs(user_dir, exist_ok=True)
 
     # 저장 경로
@@ -61,7 +61,7 @@ async def upload_image(user_id: int, file: UploadFile = File(...)):
         buffer.write(await file.read())
 
     # 접근 URL (정적 mount 기준)
-    public_url = f"/static/uploads/user_{user_id}/{file.filename}"
+    public_url = f"/static/uploads/user_{user_num}/{file.filename}"
     return {"image_url": public_url}
 
 
