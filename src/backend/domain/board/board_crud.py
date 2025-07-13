@@ -1,7 +1,9 @@
 from sqlalchemy.orm import Session
-from . import board_schema
 from models import Board, BoardImg, User
 from sqlalchemy import func, distinct
+
+from . import board_schema
+from domain.map.district_mapper import kor_to_eng
 
 def create_board(db: Session, board_data: board_schema.BoardCreate, image_url: str, user_num: int):
     """ 게시글 생성 - 이미지 제외 """
@@ -11,10 +13,14 @@ def create_board(db: Session, board_data: board_schema.BoardCreate, image_url: s
     if not user:
         raise ValueError("해당 유저를 찾을 수 없습니다.")
 
+    district_code = kor_to_eng.get(board_data.location)
+    if district_code is None:
+        raise ValueError(f"알 수 없는 구 이름입니다: {board_data.location}")
+
     db_board = Board(
         user_num=user.user_num,
         title=board_data.title,
-        district_code=board_data.location,
+        district_code=district_code,
     )
     db.add(db_board)
     db.commit()
