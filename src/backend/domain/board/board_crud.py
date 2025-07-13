@@ -5,7 +5,7 @@ from sqlalchemy import func, distinct
 from . import board_schema
 from domain.map.district_mapper import kor_to_eng
 
-def create_board(db: Session, board_data: board_schema.BoardCreate, image_url: str, user_num: int):
+def create_board(db: Session, board_data: board_schema.BoardCreate, user_num: int):
     """ 게시글 생성 - 이미지 제외 """
     # create_board()에서 board와 image를 한꺼번에 처리 → SRP 위반
     # User를 찾을 때 .id 대신 .user_num을 사용합니다.
@@ -29,7 +29,7 @@ def create_board(db: Session, board_data: board_schema.BoardCreate, image_url: s
 
 def save_board_image(db: Session, board_id: int, image_url: str) -> None:
     """ 게시글 이미지 저장 """
-    db_image = BoardImg(board_id=board_id, image_url=image_url)
+    db_image = BoardImg(board_id=board_id, img_url=image_url)
     db.add(db_image)
     db.commit()
 

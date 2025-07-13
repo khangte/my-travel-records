@@ -31,5 +31,39 @@
     </section>
     </section>
   </main>
+
+    <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const token = localStorage.getItem("access_token");
+      if (!token) {
+        console.warn("토큰 없음: 로그인하지 않은 상태입니다.");
+        return;
+      }
+
+      fetch("/api/board/me", {
+        method: "GET",
+        headers: {
+          "Authorization": `Bearer ${token}`
+        }
+      })
+      .then(res => {
+        if (!res.ok) {
+          throw new Error("API 호출 실패: " + res.status);
+        }
+        return res.json();
+      })
+      .then(data => {
+        console.log("내 게시글 목록:", data);
+        if (data.length === 0) {
+          alert("작성된 게시글이 없습니다. 먼저 하나 작성해주세요!");
+        }
+      })
+      .catch(err => {
+        console.error("API 오류:", err);
+        alert("API 호출 중 오류 발생: " + err.message);
+      });
+    });
+  </script>
+  
 </body>
 </html>
