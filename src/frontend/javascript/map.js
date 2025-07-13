@@ -56,11 +56,10 @@ fetch('/api/districts')
 
         Promise.all([allImagesPromise, latestImagePromise])
           .then(([allImages, latestImages]) => {
-            const allImgUrls = allImages.map(img => img.img_url);
-            const latestImgUrls = latestImages.map(img => img.img_url);
-
-            // 중복 제거 및 최신 이미지 먼저 보여주기
-            const combined = [...new Set([...latestImgUrls, ...allImgUrls])];
+            const combined = [...new Set([
+              ...latestImages.map(img => JSON.stringify(img)),
+              ...allImages.map(img => JSON.stringify(img))
+            ])].map(json => JSON.parse(json));
 
             updateViewer(item.display_name, combined);
           })
@@ -82,7 +81,7 @@ fetch('/api/districts')
   });
 
 // 이미지 뷰어 로직
-let currentImages = []; // 이미지 배열
+let currentImages = [];
 let currentIndex = 0;
 
 function updateViewer(districtName, images) {
@@ -103,7 +102,9 @@ function updateImage() {
     imgEl.src = image.img_url;
     imgEl.alt = image.title || '게시글 이미지';
     titleEl.innerText = image.title || '제목 없음';
-    dateEl.innerText = new Date(image.writer_date).toLocaleString();
+    dateEl.innerText = image.writer_date
+      ? new Date(image.writer_date).toLocaleString()
+      : '';
   } else {
     imgEl.src = '';
     imgEl.alt = '이미지가 없습니다';
