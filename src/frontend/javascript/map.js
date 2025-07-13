@@ -200,17 +200,9 @@ fetch('/api/districts')
 
         Promise.all([allImagesPromise, latestImagePromise])
           .then(([allImages, latestImages]) => {
-<<<<<<< HEAD
             const allImgUrls = allImages.map(img => img.img_url);
             const latestImgUrls = latestImages.map(img => img.img_url);
             const combined = [...new Set([...latestImgUrls, ...allImages])];
-=======
-            const combined = [...new Set([
-              ...latestImages.map(img => JSON.stringify(img)),
-              ...allImages.map(img => JSON.stringify(img))
-            ])].map(json => JSON.parse(json));
->>>>>>> d48099b88b474d2a167bc81208ae349eb1d2dc2b
-
             updateViewer(item.display_name, combined);
           })
           .catch(err => {
@@ -255,14 +247,8 @@ function updateImage() {
     imgEl.alt = image.title || '게시글 이미지';
 
     titleEl.innerText = image.title || '제목 없음';
-<<<<<<< HEAD
     dateEl.innerText = new Date(image.writer_date).toLocaleString();
     noImageText.style.display = "none";
-=======
-    dateEl.innerText = image.writer_date
-      ? new Date(image.writer_date).toLocaleString()
-      : '';
->>>>>>> d48099b88b474d2a167bc81208ae349eb1d2dc2b
   } else {
     imgEl.style.display = "none";
     imgEl.src = '';

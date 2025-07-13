@@ -63,12 +63,14 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // --- 로그아웃 기능 ---
-    const logoutBtn = document.getElementById("logout-btn");
+    const logoutBtn = document.querySelector('.nav .nav-btn[href="/logout"]');
     if (logoutBtn) {
         logoutBtn.addEventListener("click", (e) => {
-            e.preventDefault();
-            localStorage.removeItem("access_token");
-            window.location.href = "/index.html";
+        e.preventDefault();
+        localStorage.removeItem("access_token");
+        localStorage.removeItem("username");
+        localStorage.setItem("is_login", "false");
+        window.location.href = "/index.html";
         });
     }
 });
