@@ -42,7 +42,6 @@ def board_create(
     except Exception as e:
         raise HTTPException(status_code=500, detail="이미지 저장 실패")
 
-    # ✨ DB에 저장될 URL 경로를 실제 저장 위치에 맞게 수정합니다.
     image_url = f"/uploads/boards/{unique_filename}"
 
     # 게시글 생성
