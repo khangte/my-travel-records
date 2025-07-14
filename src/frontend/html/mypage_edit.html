@@ -8,27 +8,24 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 </head>
 <body>
-  <header class="header">
-    <div class="logo">
-      <a href="/main.html">
-        <img src="/public/images/logo.png" alt="로고" />
-      </a>
-    </div>
-    <nav class="nav">
-      <a href="/map.html" class="nav-button">Map</a>
-      <a href="/mypage.html" class="nav-button">Mypage</a>
-      <a href="#" id="logout-btn" class="nav-btn">Logout</a>
-    </nav>
-  </header>
+    <header class="header">
+        <div class="logo">
+            <a href="/main.html">
+                <img src="/static/images/logo.png" alt="로고" />
+            </a>
+        </div>
+        <nav class="nav">
+            <a href="/map.html" class="nav-btn">Map</a>
+            <a href="/mypage02.html" class="nav-btn">Mypage</a>
+            <a href="/logout" class="nav-btn">Logout</a>
+        </nav>
+    </header>
 
   <main class="mypage-container">
     <section class="profile-box">
       <div class="profile-header">
-        <label for="profile-image-upload" class="profile-img-label">
-          <img src="/public/images/profile_ex.png" alt="Profile" class="profile-img" id="profile-img" />
-        </label>
-        <input type="file" id="profile-image-upload" accept="image/*" style="display: none;" />
-        <div id="profile-name" class="profile-name">사용자 이름</div>
+        <!-- <div id="profile-name" class="profile-name">사용자 이름</div> -->
+         <div class="header-phrase">Profile Edit</div>
       </div>
 
       <div class="form-group">
@@ -58,7 +55,7 @@
       </div>
     </section>
 
-    <section class="travel-summary">
+    <!-- <section class="travel-summary">
       <h3>My Travel is ...</h3>
       <div class="row">
         <span>My Travel records:</span>
@@ -70,7 +67,7 @@
       </div>
     </section>
   </main>
-  
+   -->
   <script src="/static/javascript/mypage_edit.js"></script>
 </body>
 </html>

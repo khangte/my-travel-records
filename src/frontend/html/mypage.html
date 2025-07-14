@@ -23,21 +23,31 @@
     </header>
 
     <div class="user-info">
-        <img src="/public/images/profile_ex.png" alt="사용자 프로필" class="user-avatar" id="user-avatar" />
+        <!-- <img src="/public/images/profile_ex.png" alt="사용자 프로필" class="user-avatar" id="user-avatar" /> -->
         <div class="user-details">
-            <span id="user-nickname" style="font-size: 30px;"></span><br />
+            <!-- <span id="user-nickname" style="font-size: 30px;"></span><br />
             <span>
                 My travel records
                 <b id="post-count" style="font-size: 30px;"></b>
             </span>
-        </div>
-    </div>
+        </div> -->
+            <p>
+                <span id="user-nickname"></span>
+                <div>
+                    <span> My travel records (<span id="post-count"></span>)
+                </div>
 
-    <div class="editor-button-container">
+                <a href="mypage_edit.html" class="edit-btn" aria-label="프로필 편집"></a>
+            </p>
+       </div> 
+    </div>
+    
+
+    <!-- <div class="editor-button-container">
         <a href="mypage_edit.html" class="edit-btn" aria-label="프로필 편집">
             <i class="fa-solid fa-pen-to-square"></i>
         </a>
-    </div>
+    </div> -->
 
     <main class="main-content">
         <section class="photo-gallery" id="photo-gallery">
