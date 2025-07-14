@@ -83,7 +83,7 @@ body {
 /* 사진 업로드시 미리보기 크기 조정 */
 .image-upload-wrapper.uploaded {
    width: 300px;
-    height: 300px; 
+    height: 300px;
 }
 .image-upload-wrapper img {
     width: 40%;
@@ -156,6 +156,17 @@ textarea:focus, input[type="text"]:focus, input[type="date"]:focus {
 
 .input-with-icon input {
     padding-left: 40px;
+}
+
+.input-with-icon select {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 1rem;
+  padding-left: 40px;
+  appearance: none;
+  background: white;
 }
 
 .button-group {

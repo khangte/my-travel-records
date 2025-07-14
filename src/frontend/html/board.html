@@ -27,17 +27,37 @@
     </div>
 
     <hr class="divider" />
+
+    <!-- 자치구 선택 영역 -->
     <div class="form-field">
       <div class="input-with-icon">
+        <!-- 위치 아이콘 -->
         <i class="fa-solid fa-location-dot input-icon"></i>
-        <input type="text" id="location" name="location" placeholder="Location" />
+
+        <!-- 기존: 텍스트 입력 방식 -->
+        <!-- <input type="text" id="location" name="location" placeholder="Location" /> -->
+
+        <!-- 변경: 드롭다운 셀렉트 박스 -->
+        <select id="location" name="location" required>
+          <!-- 선택 전 플레이스홀더 역할 -->
+          <option value="" disabled selected hidden>Location</option>
+        </select>
       </div>
     </div>
 
+    <!-- 날짜 선택 영역 -->
     <div class="form-field">
       <div class="input-with-icon">
+        <!-- label은 안 보이지만 접근성용 -->
         <label for="date"></label>
+
+        <!-- 달력 아이콘 -->
         <i class="fa-solid fa-calendar-days input-icon"></i>
+
+        <!-- 날짜 입력 필드
+             - 포커스 시: input type="date"로 전환 (달력 UI 제공)
+             - 포커스 아웃 시: 다시 type="text"로 복귀 (플레이스홀더 표시)
+        -->
         <input
           type="text"
           id="date"

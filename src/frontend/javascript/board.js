@@ -15,7 +15,60 @@ document.addEventListener('DOMContentLoaded', function() {
     const deleteImageButton = document.getElementById('deleteImage');
     const defaultIconPath = '/static/images/CAMERAICON.png'; 
 
-    
+    //////////////////////////////////////////////////
+    // 추가된 부분
+
+    // --- 자치구 선택
+    const locationSelect = document.getElementById('location');
+
+    fetch('/api/districts')
+      .then(response => {
+          if (!response.ok) throw new Error('자치구 목록 로딩 실패');
+          return response.json();
+      })
+      .then(districts => {
+          districts.forEach(district => {
+              const option = document.createElement('option');
+              option.value = district.display_name;  // "강남구"처럼 한글값
+              option.textContent = district.display_name;
+              locationSelect.appendChild(option);
+          });
+      })
+      .catch(error => console.error('자치구 목록 로딩 오류:', error));
+
+    // --- 날짜 입력 및 선택
+    const dateInput = document.getElementById('date');
+
+    // 오늘 날짜 (yyyy-mm-dd 형식으로)
+    function getTodayDateString() {
+        const today = new Date();
+        const yyyy = today.getFullYear();
+        const mm = String(today.getMonth() + 1).padStart(2, '0');
+        const dd = String(today.getDate()).padStart(2, '0');
+        return `${yyyy}-${mm}-${dd}`;
+    }
+
+    // 날짜가 미래면 오늘로 바꾸는 함수
+    function correctFutureDate() {
+        const selected = new Date(dateInput.value);
+        const today = new Date(getTodayDateString());
+
+        if (selected > today) {
+            dateInput.value = getTodayDateString();
+        }
+    }
+
+    // 날짜 선택 후 포커스 잃을 때 확인
+    dateInput.addEventListener('blur', function () {
+        correctFutureDate();
+    });
+
+    // 수동으로 날짜 선택할 때도 반영
+    dateInput.addEventListener('change', function () {
+        correctFutureDate();
+    });
+    //////////////////////////////////////////////////
+
     // --- 2. 이미지 미리보기 관련 기능 ---
     imageUploadWrapper.addEventListener('click', function(event) {
         if (event.target !== deleteImageButton) {
