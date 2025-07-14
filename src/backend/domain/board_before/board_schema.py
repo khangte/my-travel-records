@@ -1,17 +1,18 @@
 # src/backend/domain/board/board_schema.py
 
-from pydantic import BaseModel
+import pydantic
 from datetime import datetime
 
 # BoardImg 테이블에서 이미지 url 링크
-class BoardImg(BaseModel):
+class BoardImg(pydantic.BaseModel):
     img_url: str
 
     class Config:
-        from_attributes = True
+        from_attributes = True 
+
 
 #  Board 호출 구문
-class Board(BaseModel):
+class Board(pydantic.BaseModel):
     board_id: int
     title: str
     writer_date: datetime
@@ -21,7 +22,8 @@ class Board(BaseModel):
     class Config:
         from_attributes = True
 
+
 # board 생성 
-class BoardCreate(BaseModel):
+class BoardCreate(pydantic.BaseModel):
     title: str
     location: str
