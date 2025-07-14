@@ -1,20 +1,25 @@
 /* frontend/css/board.css */
 
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Helvetica', sans-serif;
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
     margin: 0;
-    background: linear-gradient(to right, #ece9e6, #ffffff);
+    background: linear-gradient(to right, #ffffff, #ffffff);
+    animation: fadeIn 0.5s ease-in;
 }
 
 .form-container {
-    background-color: #fff;
+    /* background-color: #fff; */
+    background: linear-gradient(145deg, #ffffff, #e6e6e6);
     padding: 2rem;
     border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    /* box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); */
+    box-shadow:
+        inset 0 0 5px rgba(0, 0, 0, 0.2),
+        0 15px 25px rgba(0, 0, 0, 0.3);
     width: 1000px;
     max-width: 100%;
 }
@@ -176,4 +181,13 @@ textarea:focus, input[type="text"]:focus, input[type="date"]:focus {
 .submit-btn {
     background-color: #007bff;
     color: #fff;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0; /* 시작: 완전히 투명한 상태 */
+    }
+    to {
+        opacity: 1; /* 종료: 완전히 불투명한 상태 */
+    }
 }

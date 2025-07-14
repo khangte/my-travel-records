@@ -132,6 +132,15 @@ body {
   margin-top: 80%;
 }
 
+.image-viewer p {
+  margin: auto;
+  color: gray;
+  font-size: 14px;
+  text-align: center;
+  padding: 20px;
+}
+
+
 .image-viewer img {
   max-width: 200px;
   max-height: 320px;
