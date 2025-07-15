@@ -130,12 +130,20 @@ document.addEventListener('DOMContentLoaded', function() {
         event.preventDefault();
 
         const token = localStorage.getItem('access_token');
+        const submitButton = boardForm.querySelector('button[type="submit"]');
         if (!token) {
             alert('로그인이 필요합니다.');
             window.location.href = '/login.html';
             return;
         }
+        const file = imageInput.files[0];
 
+        if (!file) {
+            alert('이미지를 업로드해야 합니다.');
+            submitButton.disabled = false;
+            submitButton.textContent = 'Post';
+            return;
+        }
         const formData = new FormData(boardForm);
 
         // 한글 자치구 → 영문 district_code 변환
@@ -148,7 +156,6 @@ document.addEventListener('DOMContentLoaded', function() {
         formData.set("district_code", code);
 
         // [개선] 버튼을 비활성화해서 중복 제출을 막습니다.
-        const submitButton = boardForm.querySelector('button[type="submit"]');
         submitButton.disabled = true;
         submitButton.textContent = 'Posting...';
 
