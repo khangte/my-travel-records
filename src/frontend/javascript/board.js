@@ -17,33 +17,34 @@ document.addEventListener('DOMContentLoaded', function() {
 
     //////////////////////////////////////////////////
     // 추가된 부분
-    const districtNameToCode = {
-        '강남구': 'gangnam-gu',
-        '강동구': 'gangdong-gu',
-        '강북구': 'gangbuk-gu',
-        '강서구': 'gangseo-gu',
-        '관악구': 'gwanak-gu',
-        '광진구': 'gwangjin-gu',
-        '구로구': 'guro-gu',
-        '금천구': 'geumcheon-gu',
-        '노원구': 'nowon-gu',
-        '도봉구': 'dobong-gu',
-        '동대문구': 'dongdaemun-gu',
-        '동작구': 'dongjak-gu',
-        '마포구': 'mapo-gu',
-        '서대문구': 'seodaemun-gu',
-        '서초구': 'seocho-gu',
-        '성동구': 'seongdong-gu',
-        '성북구': 'seongbuk-gu',
-        '송파구': 'songpa-gu',
-        '양천구': 'yangcheon-gu',
-        '영등포구': 'yeongdeungpo-gu',
-        '용산구': 'yongsan-gu',
-        '은평구': 'eunpyeong-gu',
-        '종로구': 'jongno-gu',
-        '중구': 'jung-gu',
-        '중랑구': 'jungnang-gu'
-    };
+    // 필요없어짐.
+//    const districtNameToCode = {
+//        '강남구': 'gangnam-gu',
+//        '강동구': 'gangdong-gu',
+//        '강북구': 'gangbuk-gu',
+//        '강서구': 'gangseo-gu',
+//        '관악구': 'gwanak-gu',
+//        '광진구': 'gwangjin-gu',
+//        '구로구': 'guro-gu',
+//        '금천구': 'geumcheon-gu',
+//        '노원구': 'nowon-gu',
+//        '도봉구': 'dobong-gu',
+//        '동대문구': 'dongdaemun-gu',
+//        '동작구': 'dongjak-gu',
+//        '마포구': 'mapo-gu',
+//        '서대문구': 'seodaemun-gu',
+//        '서초구': 'seocho-gu',
+//        '성동구': 'seongdong-gu',
+//        '성북구': 'seongbuk-gu',
+//        '송파구': 'songpa-gu',
+//        '양천구': 'yangcheon-gu',
+//        '영등포구': 'yeongdeungpo-gu',
+//        '용산구': 'yongsan-gu',
+//        '은평구': 'eunpyeong-gu',
+//        '종로구': 'jongno-gu',
+//        '중구': 'jung-gu',
+//        '중랑구': 'jungnang-gu'
+//    };
 
     // --- 자치구 선택
     const locationSelect = document.getElementById('location');
@@ -138,6 +139,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         const formData = new FormData(boardForm);
 
+////////  필요 없어짐 -> 목록에서 선택할때 영어로 입력됨 /////////
 //        // 한글 자치구 → 영문 district_code 변환
 //        const selectedDistrictName = formData.get("district_code");
 //        const code = districtNameToCode[selectedDistrictName];
