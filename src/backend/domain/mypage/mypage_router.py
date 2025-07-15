@@ -41,38 +41,33 @@ def get_my_profile(current_user: User = Depends(get_current_user), db: Session =
 
 # 204 No Content는 본문이 없기 때문에
 # .json()으로 파싱하면 무조건 오류가 납니다.
-@router.put("/profile",
-            response_model=Token,
-            status_code=200
-            )
+@router.put("/profile", response_model=Token, status_code=200)
 def update_my_profile(
-    _profile_update: mypage_schema.ProfileUpdate,
+    _profile_update: ProfileUpdate,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user)
 ):
+    print("✅ [DEBUG] 함수 진입")
 
     if current_user is None:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="인증에 실패했습니다.")
+        print("❌ [DEBUG] current_user가 None입니다")
+        raise HTTPException(status_code=401, detail="인증에 실패했습니다.")
 
     mypage_crud.update_profile(db=db, db_user=current_user, profile_update=_profile_update)
+    print("✅ [DEBUG] update_profile 완료")
 
-    # 업데이트된 사용자 정보로 새 토큰 발급
-    # user_auth 에서 엑세스 토큰을 새로 발급 받음
     new_id = _profile_update.id if _profile_update.id else current_user.id
     new_token = create_access_token(data={"sub": new_id})
 
-    print("📥 update_my_profile 들어옴")
-    print("📤 응답 직전 데이터:", {
-        "access_token": new_token,
-        "token_type": "bearer",
-        "id": new_id
-    })
-
-    return {
+    result = {
         "access_token": new_token,
         "token_type": "bearer",
         "id": new_id
     }
+    print("📤 [DEBUG] 응답 직전:", result)
+
+    return result
+
 
 # @router.post("/profile/image", status_code=status.HTTP_204_NO_CONTENT)
 # def upload_profile_image(
