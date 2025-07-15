@@ -146,14 +146,14 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         const formData = new FormData(boardForm);
 
-        // 한글 자치구 → 영문 district_code 변환
-        const selectedDistrictName = formData.get("district_code");
-        const code = districtNameToCode[selectedDistrictName];
-        if (!code) {
-            alert("선택한 자치구의 코드 변환에 실패했습니다.");
-            return;
-        }
-        formData.set("district_code", code);
+//        // 한글 자치구 → 영문 district_code 변환
+//        const selectedDistrictName = formData.get("district_code");
+//        const code = districtNameToCode[selectedDistrictName];
+//        if (!code) {
+//            alert("선택한 자치구의 코드 변환에 실패했습니다.");
+//            return;
+//        }
+//        formData.set("district_code", code);
 
         // [개선] 버튼을 비활성화해서 중복 제출을 막습니다.
         submitButton.disabled = true;
