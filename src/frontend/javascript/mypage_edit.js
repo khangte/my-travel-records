@@ -59,9 +59,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
 
-        const validPattern = /^[ㄱ-ㅎ가-힣a-zA-Z0-9]+$/;
+        const validPattern = /^[a-zA-Z0-9]+$/;
         if (!validPattern.test(userid)) {
-            alert('한글, 영어, 숫자만 입력 가능합니다.');
+            alert('영어, 숫자만 입력 가능합니다.');
             return;
         }
 
