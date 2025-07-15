@@ -10,7 +10,6 @@ class ProfileUpdate(BaseModel):
 # 사용자 프로필 정보를 프론트엔드로 보낼 때의 규칙
 class UserProfile(BaseModel):
     id: str | None = None
-    profile_img: str | None = None
     register_date: datetime | None = None
     birth: date | None = None
     post_count: int = 0

@@ -88,13 +88,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-
-    // // 한글 + 영어 + 숫자만 입력 허용
-    // idInputElement.addEventListener("input", () => {
-    //     const cleaned = idInputElement.value.replace(/[^ㄱ-ㅎ가-힣a-zA-Z0-9]/g, '');
-    //     idInputElement.value = cleaned;
-    // });
-
     // 저장 버튼 클릭 시 수정 요청
     saveBtn.addEventListener("click", async () => {
         const updatedData = {

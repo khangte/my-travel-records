@@ -124,7 +124,6 @@ body {
   transform: translate(-50%, -50%);
 }
 
-/* 🔽 새로 추가된 부분: 지역명 + 화살표 줄 정렬 */
 .viewer-header {
   display: flex;
   align-items: center;
@@ -140,7 +139,6 @@ body {
   color: #333;
 }
 
-/* 🔽 화살표 버튼 (◀ ▶) */
 .arrow {
   font-size: 20px;
   font-weight: bold;
@@ -179,7 +177,7 @@ body {
 
 .home-button {
   width: 45px;
-  height: 45px;
+  height: 50px;
   border-radius: 50%;
   background: linear-gradient(to bottom, #f5f5f5, #ddd);
   border: 2px solid #bbb;

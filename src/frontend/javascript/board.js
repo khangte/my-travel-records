@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', function() {
       .then(districts => {
           districts.forEach(district => {
               const option = document.createElement('option');
-              option.value = district.display_name;  // "강남구"처럼 한글값
+              option.value = district.code;  
               option.textContent = district.display_name;
               locationSelect.appendChild(option);
           });
