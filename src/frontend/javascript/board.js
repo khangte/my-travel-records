@@ -6,7 +6,6 @@ document.addEventListener('DOMContentLoaded', function() {
         })
     }
 
-
     // --- 1. 제어할 요소들을 모두 가져옵니다 ---
     const boardForm = document.getElementById('board-form');
     const imageUploadWrapper = document.querySelector('.image-upload-wrapper');
@@ -58,7 +57,7 @@ document.addEventListener('DOMContentLoaded', function() {
           districts.forEach(district => {
               const option = document.createElement('option');
               option.value = district.display_name;  // "강남구"처럼 한글값
-              option.textContent = district.display_name;
+              option.textContent = district.display_name; // 화면에 보여질 text도 한글값 (display_name)
               locationSelect.appendChild(option);
           });
       })
@@ -138,6 +137,15 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         const formData = new FormData(boardForm);
+
+        // html 대신 유효성 검사
+        const file = imageInput.files[0];
+        if (!file) {
+            alert("이미지를 선택해주세요.");
+            submitButton.disabled = false;
+            submitButton.textContent = 'Post';
+            return;
+        }
 
 ////////  필요 없어짐 -> 목록에서 선택할때 영어로 입력됨 /////////
 //        // 한글 자치구 → 영문 district_code 변환

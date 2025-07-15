@@ -25,7 +25,7 @@ PROJECT_ROOT_DIR = os.path.join(BASE_DIR, "..", "..", "..", "..")
 def board_create(
     db: Session = Depends(get_db),                         # DB 세션 의존성 주입
     title: str = Form(...),                                # 폼에서 입력받는 게시글 제목
-    district_code: str = Form(...),                             # 폼에서 입력받는 구 이름
+    district_code: str = Form(...),                        # 폼에서 입력받는 구 이름
     image: UploadFile = File(...),                         # 업로드한 이미지 파일
     current_user: User = Depends(get_current_user)         # 현재 로그인한 유저 정보
 ):
