@@ -58,7 +58,6 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-
         const validPattern = /^[a-zA-Z0-9]+$/;
         if (!validPattern.test(userid)) {
             alert('영어, 숫자만 입력 가능합니다.');
@@ -137,8 +136,22 @@ document.addEventListener('DOMContentLoaded', () => {
             const data = await response.json();
 
             // 정상 응답이 아닐 시
-            if (!response.ok) {
-                throw new Error(data.detail || "정보 수정 실패");
+             if (!response.ok) {
+                // 상세 에러 분기
+                if (response.status === 409) {
+                    alert(data.detail || "이미 사용 중인 ID입니다.");
+                } else if (response.status === 401) {
+                    alert("인증이 만료되었거나 잘못되었습니다. 다시 로그인해주세요.");
+                    localStorage.removeItem("access_token");
+                    window.location.href = "/login.html";
+                } else if (response.status === 400) {
+                    alert(data.detail || "입력 값이 유효하지 않습니다.");
+                } else if (response.status >= 500) {
+                    alert("서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
+                } else {
+                    alert(data.detail || "정보 수정에 실패했습니다.");
+                }
+                return;
             }
 
             // 새 토큰 수신 시 저장
