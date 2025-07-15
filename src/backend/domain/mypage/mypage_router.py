@@ -52,6 +52,7 @@ def update_my_profile(
 ):
     if current_user is None:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="인증에 실패했습니다.")
+
     mypage_crud.update_profile(db=db, db_user=current_user, profile_update=_profile_update)
 
     ##############################
@@ -59,6 +60,7 @@ def update_my_profile(
     # user_auth 에서 엑세스 토큰을 새로 발급 받음
     new_id = _profile_update.id if _profile_update.id else current_user.id
     new_token = create_access_token(data={"sub": new_id})
+
     return {
         "access_token": new_token,
         "token_type": "bearer",

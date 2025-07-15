@@ -12,12 +12,21 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 # 프로필 업데이트를 처리하는 함수
 def update_profile(db: Session, db_user: User, profile_update: ProfileUpdate):
     update_data = profile_update.model_dump(exclude_unset=True)
+
     print("🔧 [update_profile] 수정 요청 받은 필드들:", update_data)
 
     for key, value in update_data.items():
-        if key == "pw" and value:
+        if key == "id" and value:
+            # 중복된 아이디 체크
+            existing_user = user_crud.get_user(db, value)
+            if existing_user and existing_user.user_num != db_user.user_num:
+                raise HTTPException(status_code=409, detail="이미 사용 중인 ID입니다.")
+            setattr(db_user, "id", value)
+
+        elif key == "pw" and value:
             hashed_password = pwd_context.hash(value)
             setattr(db_user, "pw", hashed_password)
+
         else:
             setattr(db_user, key, value)
 
