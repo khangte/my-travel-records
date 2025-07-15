@@ -54,7 +54,7 @@ async def serve_index():
 async def serve_html(filename: str):
     return FileResponse(os.path.join(html_dir, f"{filename}.html"))
 
-@app.post("/upload/{user_num}")
+@app.post("/uploads/{user_num}")
 async def upload_image(user_num: int, file: UploadFile = File(...)):
     user_dir = os.path.join(uploads_dir, f"user_{user_num}")
     os.makedirs(user_dir, exist_ok=True)
