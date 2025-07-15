@@ -215,12 +215,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // 닉네임 중복 확인
+    // 아이디 중복 확인
     const checkBtn = document.querySelector('.check-btn');
     checkBtn.addEventListener('click', async () => {
         const userid = idInputElement.value.trim();
         if (!userid) {
-            alert('닉네임을 입력해주세요.');
+            alert('ID을 입력해주세요.');
             return;
         }
 
@@ -238,13 +238,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const data = await response.json();
             if (data.available) {
-                alert('사용 가능한 닉네임입니다.');
+                alert('사용 가능한 ID입니다.');
             } else {
-                alert('이미 사용 중인 닉네임입니다.');
+                alert('이미 사용 중인 ID입니다.');
             }
         } catch (error) {
-            console.error('닉네임 확인 오류:', error);
-            alert('닉네임 중복 확인 중 오류가 발생했습니다.');
+            console.error('ID 확인 오류:', error);
+            alert('ID 중복 확인 중 오류가 발생했습니다.');
         }
     });
 
