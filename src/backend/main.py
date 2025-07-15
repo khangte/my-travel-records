@@ -67,7 +67,7 @@ async def upload_image(user_num: int, file: UploadFile = File(...)):
         buffer.write(await file.read())
 
     # 접근 URL (정적 mount 기준)
-    public_url = f"/static/uploads/user_{user_num}/{file.filename}"
+    public_url = f"/uploads/user_{user_num}/{file.filename}"
     return {"image_url": public_url}
 
 # API 라우터
