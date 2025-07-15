@@ -6,6 +6,8 @@ from models import User, Board
 from domain.user.user_auth import get_current_user
 from domain.mypage import mypage_crud, mypage_schema 
 from domain.mypage.mypage_schema import UserProfile, ProfileUpdate, UserStatsResponse
+from domain.user.user_auth import create_access_token
+from domain.user.user_schema import Token  # response_model 추가
 
 import shutil
 import os
@@ -28,7 +30,6 @@ def get_my_profile(current_user: User = Depends(get_current_user), db: Session =
 
     post_count = mypage_crud.count_user_boards(db=db, user_num=current_user.user_num)
     location_count = mypage_crud.count_unique_user_districts(db=db, user_num=current_user.user_num)
-    
 
     return mypage_schema.UserProfile(
         id=current_user.id,
@@ -38,7 +39,12 @@ def get_my_profile(current_user: User = Depends(get_current_user), db: Session =
         location_count=location_count
     )
 
-@router.put("/profile", status_code=status.HTTP_204_NO_CONTENT)
+# 204 No Content는 본문이 없기 때문에
+# .json()으로 파싱하면 무조건 오류가 납니다.
+@router.put("/profile",
+            response_model=Token
+            # status_code=status.HTTP_204_NO_CONTENT
+            )
 def update_my_profile(
     _profile_update: mypage_schema.ProfileUpdate,
     db: Session = Depends(get_db),
@@ -47,6 +53,18 @@ def update_my_profile(
     if current_user is None:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="인증에 실패했습니다.")
     mypage_crud.update_profile(db=db, db_user=current_user, profile_update=_profile_update)
+
+    ##############################
+    # 업데이트된 사용자 정보로 새 토큰 발급
+    # user_auth 에서 엑세스 토큰을 새로 발급 받음
+    new_id = _profile_update.id if _profile_update.id else current_user.id
+    new_token = create_access_token(data={"sub": new_id})
+    return {
+        "access_token": new_token,
+        "token_type": "bearer",
+        "id": new_id
+    }
+    ##############################
 
 # @router.post("/profile/image", status_code=status.HTTP_204_NO_CONTENT)
 # def upload_profile_image(

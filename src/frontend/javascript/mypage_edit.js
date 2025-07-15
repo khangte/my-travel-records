@@ -269,13 +269,35 @@ document.addEventListener('DOMContentLoaded', () => {
                 body: JSON.stringify(updatedData)
             });
 
-            if (response.status === 204) {
-                alert("정보가 성공적으로 수정되었습니다.");
-                window.location.href = "/mypage02.html";
-            } else {
-                const errorData = await response.json().catch(() => ({}));
-                throw new Error(errorData.detail || "정보 수정에 실패했습니다.");
+//            // 주석 이유
+//            // update_my_profile()에서 204 nocontent 응답 대신,
+//            // 200 응답을 파싱하도록 수정함.
+//            if (response.status === 204) {
+//                alert("정보가 성공적으로 수정되었습니다.");
+//                window.location.href = "/mypage02.html";
+//            } else {
+//                const errorData = await response.json().catch(() => ({}));
+//                throw new Error(errorData.detail || "정보 수정에 실패했습니다.");
+//            }
+//
+            ////////////////////////
+            // update_my_file()에서 200 응답을 함.
+            const data = await response.json();
+
+            // 정상 응답이 아닐 시
+            if (!response.ok) {
+                throw new Error(data.detail || "정보 수정 실패");
             }
+
+            // 새 토큰 수신 시 저장
+            if (data.access_token) {
+                localStorage.setItem("access_token", data.access_token);
+            }
+
+            alert("정보가 성공적으로 수정되었습니다.");
+            window.location.href = "/mypage02.html"
+            ////////////////////////
+
         } catch (error) {
             console.error('정보 수정 오류:', error);
             alert(error.message);
