@@ -42,8 +42,8 @@ def get_my_profile(current_user: User = Depends(get_current_user), db: Session =
 # 204 No Content는 본문이 없기 때문에
 # .json()으로 파싱하면 무조건 오류가 납니다.
 @router.put("/profile",
-            response_model=Token
-            # status_code=status.HTTP_204_NO_CONTENT
+            response_model=Token,
+            status_code=200
             )
 def update_my_profile(
     _profile_update: mypage_schema.ProfileUpdate,
