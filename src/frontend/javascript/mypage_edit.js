@@ -66,7 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         try {
-            const response = await fetch(`/api/mypage/check-id?id=${encodeURIComponent(userid)}`, {
+            const response = await fetch(`/api/user/check-id?id=${encodeURIComponent(userid)}`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`

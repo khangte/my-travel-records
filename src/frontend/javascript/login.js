@@ -4,7 +4,7 @@ document.getElementById("loginForm").addEventListener("submit", async function(e
   const id = document.getElementById("userId").value.trim();
   const pw = document.getElementById("password").value.trim();
 
-  // 한글, 영어, 숫자만 허용
+  // 영어, 숫자만 허용
   const allowedRegex = /^[a-zA-Z0-9]+$/;
   if (!allowedRegex.test(id)) {
     alert("아이디는 영어, 숫자만 입력 가능합니다.");
