@@ -125,8 +125,12 @@ document.addEventListener('DOMContentLoaded', () => {
 //            }
 //
             ////////////////////////
-            // update_my_file()에서 200 응답을 함.
-            const data = await response.json();
+            let data = {};
+            try {
+                data = await response.json();
+            } catch (err) {
+                console.warn("본문이 없는 응답입니다. (response.json() 생략됨)");
+            }
 
             // 정상 응답이 아닐 시
              if (!response.ok) {
