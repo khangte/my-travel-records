@@ -78,9 +78,7 @@ def get_all_district_images(
         for img in board.images:
             all_images.append({
                 "board_id": board.board_id,
-                "img_url": img.img_url,
-                "title": board.title,
-                "writer_date": board.writer_date.isoformat()
+                "img_url": img.img_url
             })
 
     return JSONResponse(content=all_images)
