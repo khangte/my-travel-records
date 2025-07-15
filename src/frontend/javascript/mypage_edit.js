@@ -295,7 +295,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             alert("정보가 성공적으로 수정되었습니다.");
-            window.location.href = "/mypage02.html"
+            window.location.href = "/mypage.html"
             ////////////////////////
 
         } catch (error) {
