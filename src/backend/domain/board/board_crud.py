@@ -17,6 +17,8 @@ def create_board(db: Session, board_data: board_schema.BoardCreate, user_num: in
 
     # location(한글 구 이름) → district_code(영문 ID)로 변환
     district_code = kor_to_eng.get(board_data.location)
+    print("📍 변환 시도한 location:", board_data.location)
+
     if district_code is None:
         raise ValueError(f"알 수 없는 구 이름입니다: {board_data.location}")
 

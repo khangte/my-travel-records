@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
         })
     }
 
-    
+
     // --- 1. 제어할 요소들을 모두 가져옵니다 ---
     const boardForm = document.getElementById('board-form');
     const imageUploadWrapper = document.querySelector('.image-upload-wrapper');
@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', function() {
       .then(districts => {
           districts.forEach(district => {
               const option = document.createElement('option');
-              option.value = district.code;  
+              option.value = district.code;
               option.textContent = district.display_name;
               locationSelect.appendChild(option);
           });
@@ -144,16 +144,22 @@ document.addEventListener('DOMContentLoaded', function() {
             submitButton.textContent = 'Post';
             return;
         }
-        const formData = new FormData(boardForm);
 
-//        // 한글 자치구 → 영문 district_code 변환
-//        const selectedDistrictName = formData.get("district_code");
-//        const code = districtNameToCode[selectedDistrictName];
-//        if (!code) {
-//            alert("선택한 자치구의 코드 변환에 실패했습니다.");
-//            return;
-//        }
-//        formData.set("district_code", code);
+        const formData = new FormData(boardForm);
+        console.log("📝 FormData 전체:", [...formData.entries()]);
+        console.log("📍 선택한 location:", formData.get("location"));
+        console.log("📌 선택한 title:", formData.get("title"));
+        console.log("📆 선택한 date:", formData.get("date"));
+        console.log("🖼️ 이미지 파일:", formData.get("image"));
+
+        // 한글 자치구 → 영문 district_code 변환
+        const selectedDistrictName = formData.get("district_code");
+        const code = districtNameToCode[selectedDistrictName];
+        if (!code) {
+            alert("선택한 자치구의 코드 변환에 실패했습니다.");
+            return;
+        }
+        formData.set("district_code", code);
 
         // [개선] 버튼을 비활성화해서 중복 제출을 막습니다.
         submitButton.disabled = true;
