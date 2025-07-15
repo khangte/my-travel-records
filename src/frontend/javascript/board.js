@@ -17,6 +17,33 @@ document.addEventListener('DOMContentLoaded', function() {
 
     //////////////////////////////////////////////////
     // 추가된 부분
+    const districtNameToCode = {
+        '강남구': 'gangnam-gu',
+        '강동구': 'gangdong-gu',
+        '강북구': 'gangbuk-gu',
+        '강서구': 'gangseo-gu',
+        '관악구': 'gwanak-gu',
+        '광진구': 'gwangjin-gu',
+        '구로구': 'guro-gu',
+        '금천구': 'geumcheon-gu',
+        '노원구': 'nowon-gu',
+        '도봉구': 'dobong-gu',
+        '동대문구': 'dongdaemun-gu',
+        '동작구': 'dongjak-gu',
+        '마포구': 'mapo-gu',
+        '서대문구': 'seodaemun-gu',
+        '서초구': 'seocho-gu',
+        '성동구': 'seongdong-gu',
+        '성북구': 'seongbuk-gu',
+        '송파구': 'songpa-gu',
+        '양천구': 'yangcheon-gu',
+        '영등포구': 'yeongdeungpo-gu',
+        '용산구': 'yongsan-gu',
+        '은평구': 'eunpyeong-gu',
+        '종로구': 'jongno-gu',
+        '중구': 'jung-gu',
+        '중랑구': 'jungnang-gu'
+    };
 
     // --- 자치구 선택
     const locationSelect = document.getElementById('location');
@@ -110,6 +137,15 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         const formData = new FormData(boardForm);
+
+        // 한글 자치구 → 영문 district_code 변환
+        const selectedDistrictName = formData.get("district_code");
+        const code = districtNameToCode[selectedDistrictName];
+        if (!code) {
+            alert("선택한 자치구의 코드 변환에 실패했습니다.");
+            return;
+        }
+        formData.set("district_code", code);
 
         // [개선] 버튼을 비활성화해서 중복 제출을 막습니다.
         const submitButton = boardForm.querySelector('button[type="submit"]');
