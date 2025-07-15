@@ -164,7 +164,6 @@
 //   });
 // }
 
-
 document.addEventListener('DOMContentLoaded', () => {
     const token = localStorage.getItem('access_token');
     if (!token) {
@@ -173,13 +172,14 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
 
-    const nicknameInputElement = document.getElementById("nickname");
+    const idInputElement = document.getElementById("user-id");
     const passwordInputElement = document.getElementById("password");
     const birthDateInputElement = document.getElementById("birth-date");
     const registerDateInputElement = document.getElementById("register-date");
     const saveBtn = document.querySelector(".edit-btn");
     const cancelBtn = document.querySelector(".cancel-btn");
 
+    // 사용자 프로필 불러오기
     async function loadProfileData() {
         try {
             const response = await fetch('/api/mypage/profile', {
@@ -192,10 +192,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const data = await response.json();
 
+            // 닉네임 입력창은 비워두되 placeholder로 기존 ID 표시
             const displayName = data.nickname || data.id;
-            nicknameInputElement.value = ""; 
-            nicknameInputElement.placeholder = displayName;
-
+            idInputElement.value = "";
+            idInputElement.placeholder = displayName;
 
             if (data.birth) {
                 birthDateInputElement.value = new Date(data.birth).toISOString().split('T')[0];
@@ -211,46 +211,83 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    saveBtn.addEventListener('click', async () => {
-        const nickname = nicknameInputElement.value;
-        const password = passwordInputElement.value;
-        const birth = birthDateInputElement.value;
-
-        const payload = {
-            nickname: nickname || undefined,
-            pw: password ? password : undefined,
-            birth: birth || undefined
-        };
+    // 닉네임 중복 확인
+    const checkBtn = document.querySelector('.check-btn');
+    checkBtn.addEventListener('click', async () => {
+        const userid = idInputElement.value.trim();
+        if (!userid) {
+            alert('닉네임을 입력해주세요.');
+            return;
+        }
 
         try {
-            const response = await fetch('/api/mypage/profile', {
-                method: 'PUT',
+            const response = await fetch(`/api/mypage/check-id?id=${encodeURIComponent(userid)}`, {
+                method: 'GET',
                 headers: {
-                    'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error('중복 확인 실패');
+            }
+
+            const data = await response.json();
+            if (data.available) {
+                alert('사용 가능한 닉네임입니다.');
+            } else {
+                alert('이미 사용 중인 닉네임입니다.');
+            }
+        } catch (error) {
+            console.error('닉네임 확인 오류:', error);
+            alert('닉네임 중복 확인 중 오류가 발생했습니다.');
+        }
+    });
+
+    // 저장 버튼 클릭 시 수정 요청
+    saveBtn.addEventListener("click", async () => {
+        const updatedData = {
+            id: idInputElement.value.trim(),
+            pw: passwordInputElement.value.trim() || null,
+            birth: birthDateInputElement.value || null
+        };
+
+        // null 또는 빈 값 필드는 제거
+        Object.keys(updatedData).forEach((key) => {
+            if (!updatedData[key]) {
+                delete updatedData[key];
+            }
+        });
+
+        try {
+            const response = await fetch("/api/mypage/profile", {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
                 },
-                body: JSON.stringify(payload)
+                body: JSON.stringify(updatedData)
             });
 
             if (response.status === 204) {
-                alert('프로필이 성공적으로 수정되었습니다.');
-                window.location.href = '/mypage.html';
+                alert("정보가 성공적으로 수정되었습니다.");
+                window.location.href = "/mypage02.html";
             } else {
-                const errorData = await response.json();
-                throw new Error(errorData.detail || '수정 실패');
+                const errorData = await response.json().catch(() => ({}));
+                throw new Error(errorData.detail || "정보 수정에 실패했습니다.");
             }
         } catch (error) {
-            console.error('수정 에러:', error);
+            console.error('정보 수정 오류:', error);
             alert(error.message);
         }
     });
 
+    // 취소 버튼: 이전 페이지로
     cancelBtn.addEventListener('click', () => {
         window.history.back();
     });
 
-    loadProfileData();
-
+    // 로그아웃 버튼
     const logoutBtn = document.querySelector('.nav .nav-btn[href="/logout"]');
     if (logoutBtn) {
         logoutBtn.addEventListener('click', (e) => {
@@ -262,4 +299,7 @@ document.addEventListener('DOMContentLoaded', () => {
             window.location.href = '/index.html';
         });
     }
+
+    // 초기 데이터 로딩
+    loadProfileData();
 });

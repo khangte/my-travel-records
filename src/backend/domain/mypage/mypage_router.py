@@ -32,8 +32,6 @@ def get_my_profile(current_user: User = Depends(get_current_user), db: Session =
 
     return mypage_schema.UserProfile(
         id=current_user.id,
-        nickname=current_user.id,  # ✨ 이 부분을 수정!
-        profile_img=current_user.profile_img,
         register_date=current_user.register_date,
         birth=current_user.birth,
         post_count=post_count,
@@ -50,29 +48,29 @@ def update_my_profile(
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="인증에 실패했습니다.")
     mypage_crud.update_profile(db=db, db_user=current_user, profile_update=_profile_update)
 
-@router.post("/profile/image", status_code=status.HTTP_204_NO_CONTENT)
-def upload_profile_image(
-    file: UploadFile = File(...),
-    db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user)
-):
-    if current_user is None:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="인증에 실패했습니다.")
+# @router.post("/profile/image", status_code=status.HTTP_204_NO_CONTENT)
+# def upload_profile_image(
+#     file: UploadFile = File(...),
+#     db: Session = Depends(get_db),
+#     current_user: User = Depends(get_current_user)
+# ):
+#     if current_user is None:
+#         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="인증에 실패했습니다.")
 
-    os.makedirs(UPLOAD_DIRECTORY, exist_ok=True)
+#     os.makedirs(UPLOAD_DIRECTORY, exist_ok=True)
     
-    file_extension = file.filename.split('.')[-1]
-    filename = f"{current_user.id}.{file_extension}"
-    file_path = os.path.join(UPLOAD_DIRECTORY, filename)
+#     file_extension = file.filename.split('.')[-1]
+#     filename = f"{current_user.id}.{file_extension}"
+#     file_path = os.path.join(UPLOAD_DIRECTORY, filename)
 
-    with open(file_path, "wb") as buffer:
-        shutil.copyfileobj(file.file, buffer)
+#     with open(file_path, "wb") as buffer:
+#         shutil.copyfileobj(file.file, buffer)
 
-    # ✨ 실제 파일이 저장되는 /uploads/ 경로와 일치하도록 URL 수정
-    file_url = f"/uploads/profiles/{filename}"
-    current_user.profile_img = file_url
-    db.add(current_user)
-    db.commit()
+#     # ✨ 실제 파일이 저장되는 /uploads/ 경로와 일치하도록 URL 수정
+#     file_url = f"/uploads/profiles/{filename}"
+#     current_user.profile_img = file_url
+#     db.add(current_user)
+#     db.commit()
 
 # ✨ 이 API는 이제 /profile API와 기능이 중복되지만, 혹시 다른 곳에서 사용할 경우를 위해 그대로 둡니다.
 # 만약 더 이상 필요 없다면 이 라우터 자체를 삭제해도 좋습니다.
@@ -89,3 +87,9 @@ def read_user_stats(db: Session = Depends(get_db), current_user: User = Depends(
         "post_count": post_count,
         "visited_districts_count": visited_districts_count
     }
+
+
+@router.get("/check-id")
+def check_id(id: str, db: Session = Depends(get_db)):
+    user = db.query(User).filter(User.id == id).first()
+    return {"available": user is None}
