@@ -90,7 +90,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 저장 버튼 클릭 시 수정 요청
     saveBtn.addEventListener("click", async () => {
-
         const nickname = idInputElement.value.trim() || idInputElement.placeholder;
 
         const updatedData = {
@@ -99,12 +98,13 @@ document.addEventListener('DOMContentLoaded', () => {
             birth: birthDateInputElement.value || null
         };
 
-        // null 또는 빈 값 필드는 제거
         Object.keys(updatedData).forEach((key) => {
             if (!updatedData[key]) {
                 delete updatedData[key];
             }
         });
+
+        console.log("📤 서버에 보낼 데이터:", updatedData);
 
         try {
             const response = await fetch("/api/mypage/profile", {
@@ -116,45 +116,35 @@ document.addEventListener('DOMContentLoaded', () => {
                 body: JSON.stringify(updatedData)
             });
 
+            console.log("📥 응답 상태코드:", response.status);
+            console.log("📥 응답 헤더:", [...response.headers.entries()]);
+
             let data = {};
             try {
                 data = await response.json();
-            } catch (err) {
-                console.warn("본문이 없는 응답입니다. (response.json() 생략됨)");
+                console.log("📥 응답 본문(JSON):", data);
+            } catch (e) {
+                console.warn("⚠️ 응답 본문 없음 (response.json() 실패)");
             }
 
-            // 정상 응답이 아닐 시
             if (!response.ok) {
-                // 상세 에러 분기
-                if (response.status === 409) {
-                    alert(data.detail || "이미 사용 중인 ID입니다.");
-                } else if (response.status === 401) {
-                    alert("인증이 만료되었거나 잘못되었습니다. 다시 로그인해주세요.");
-                    localStorage.removeItem("access_token");
-                    window.location.href = "/login.html";
-                } else if (response.status === 400) {
-                    alert(data.detail || "입력 값이 유효하지 않습니다.");
-                } else if (response.status >= 500) {
-                    alert("서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
-                } else {
-                    alert(data.detail || "정보 수정에 실패했습니다.");
-                }
+                alert(data.detail || "정보 수정 실패");
                 return;
             }
 
-            // 새 토큰 수신 시 저장
             if (data.access_token) {
                 localStorage.setItem("access_token", data.access_token);
             }
 
             alert("정보가 성공적으로 수정되었습니다.");
-            window.location.href = "/mypage.html"
+            window.location.href = "/mypage.html";
 
         } catch (error) {
-            console.error('정보 수정 오류:', error);
-            alert(error.message);
+            console.error("💥 정보 수정 중 오류 발생:", error);
+            alert("정보 수정 요청 실패");
         }
     });
+
 
     // 취소 버튼: 이전 페이지로
     cancelBtn.addEventListener('click', () => {
