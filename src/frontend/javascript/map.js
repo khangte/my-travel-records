@@ -35,14 +35,16 @@ fetch('/api/districts')
       path.addEventListener("click", () => {
         const token = localStorage.getItem("access_token");
 
-        const allImagesPromise = fetch(`/api/districts/${item.id}/images`, {
+        const districtId = item.id.toLowerCase();
+
+        const allImagesPromise = fetch(`/api/districts/${districtId}/images`, {
           method: "GET",
           headers: {
             "Authorization": `Bearer ${token}`
           }
         }).then(res => res.ok ? res.json() : []);
 
-        const latestImagePromise = fetch(`/api/districts/${item.id}/image`, {
+        const latestImagePromise = fetch(`/api/districts/${districtId}/image`, {
           method: "GET",
           headers: {
             "Authorization": `Bearer ${token}`
@@ -51,9 +53,7 @@ fetch('/api/districts')
 
         Promise.all([allImagesPromise, latestImagePromise])
           .then(([allImages, latestImages]) => {
-            const allImgUrls = allImages.map(img => img.img_url);
-            const latestImgUrls = latestImages.map(img => img.img_url);
-            const combined = [...new Set([...latestImgUrls, ...allImages])];
+            const combined = [...new Set([...latestImages, ...allImages])];
             updateViewer(item.display_name, combined);
           })
           .catch(err => {
