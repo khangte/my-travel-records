@@ -106,7 +106,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         try {
             const response = await fetch("/api/mypage/profile", {
-                method: "PUT",
+                method: "GET",
                 headers: {
                     "Content-Type": "application/json",
                     "Authorization": `Bearer ${token}`
