@@ -90,8 +90,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 저장 버튼 클릭 시 수정 요청
     saveBtn.addEventListener("click", async () => {
+
+        const nickname = idInputElement.value.trim() || idInputElement.placeholder;
+
         const updatedData = {
-            id: idInputElement.value.trim(),
+            id: nickname,
             pw: passwordInputElement.value.trim() || null,
             birth: birthDateInputElement.value || null
         };
@@ -113,18 +116,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 body: JSON.stringify(updatedData)
             });
 
-//            // 주석 이유
-//            // update_my_profile()에서 204 nocontent 응답 대신,
-//            // 200 응답을 파싱하도록 수정함.
-//            if (response.status === 204) {
-//                alert("정보가 성공적으로 수정되었습니다.");
-//                window.location.href = "/mypage.html";
-//            } else {
-//                const errorData = await response.json().catch(() => ({}));
-//                throw new Error(errorData.detail || "정보 수정에 실패했습니다.");
-//            }
-//
-            ////////////////////////
             let data = {};
             try {
                 data = await response.json();
@@ -133,7 +124,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             // 정상 응답이 아닐 시
-             if (!response.ok) {
+            if (!response.ok) {
                 // 상세 에러 분기
                 if (response.status === 409) {
                     alert(data.detail || "이미 사용 중인 ID입니다.");
@@ -158,7 +149,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
             alert("정보가 성공적으로 수정되었습니다.");
             window.location.href = "/mypage.html"
-            ////////////////////////
 
         } catch (error) {
             console.error('정보 수정 오류:', error);

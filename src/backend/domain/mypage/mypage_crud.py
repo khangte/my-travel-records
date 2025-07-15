@@ -12,14 +12,18 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 # 프로필 업데이트를 처리하는 함수
 def update_profile(db: Session, db_user: User, profile_update: ProfileUpdate):
     update_data = profile_update.model_dump(exclude_unset=True)
+    print("🔧 [update_profile] 수정 요청 받은 필드들:", update_data)
+
     for key, value in update_data.items():
         if key == "pw" and value:
             hashed_password = pwd_context.hash(value)
             setattr(db_user, "pw", hashed_password)
         else:
             setattr(db_user, key, value)
+
     db.add(db_user)
     db.commit()
+    print("✅ [update_profile] DB 업데이트 완료")
 
 # 사용자 총 게시물 계산
 def count_user_boards(db: Session, user_num: int):
