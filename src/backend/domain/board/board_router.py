@@ -25,7 +25,7 @@ PROJECT_ROOT_DIR = os.path.join(BASE_DIR, "..", "..", "..", "..")
 def board_create(
     db: Session = Depends(get_db),                         # DB 세션 의존성 주입
     title: str = Form(...),                                # 폼에서 입력받는 게시글 제목
-    location: str = Form(...),                             # 폼에서 입력받는 구 이름
+    district_code: str = Form(...),                             # 폼에서 입력받는 구 이름
     image: UploadFile = File(...),                         # 업로드한 이미지 파일
     current_user: User = Depends(get_current_user)         # 현재 로그인한 유저 정보
 ):
@@ -49,7 +49,7 @@ def board_create(
     image_url = f"/uploads/{user_dir}/{unique_filename}"
 
     # 게시글 생성용 데이터 구성
-    board_data = board_schema.BoardCreate(title=title, location=location)
+    board_data = board_schema.BoardCreate(title=title, location=district_code)
 
     try:
         # 게시글 DB에 저장

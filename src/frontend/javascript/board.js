@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const imageInput = document.getElementById('imageInput');
     const previewImage = document.getElementById('previewImage');
     const deleteImageButton = document.getElementById('deleteImage');
-    const defaultIconPath = '/static/images/CAMERAICON.png'; 
+    const defaultIconPath = '/static/images/CAMERAICON.png';
 
     //////////////////////////////////////////////////
     // 추가된 부분
@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', function() {
       .then(districts => {
           districts.forEach(district => {
               const option = document.createElement('option');
-              option.value = district.code;
+              option.value = district.display_name;  // "강남구"처럼 한글값
               option.textContent = district.display_name;
               locationSelect.appendChild(option);
           });
@@ -118,7 +118,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     deleteImageButton.addEventListener('click', function() {
         previewImage.src = defaultIconPath;
-        imageInput.value = ''; 
+        imageInput.value = '';
         deleteImageButton.style.display = 'none';
         imageUploadWrapper.classList.remove('uploaded');
     });
@@ -130,38 +130,25 @@ document.addEventListener('DOMContentLoaded', function() {
         event.preventDefault();
 
         const token = localStorage.getItem('access_token');
-        const submitButton = boardForm.querySelector('button[type="submit"]');
         if (!token) {
             alert('로그인이 필요합니다.');
             window.location.href = '/login.html';
             return;
         }
-        const file = imageInput.files[0];
-
-        if (!file) {
-            alert('이미지를 업로드해야 합니다.');
-            submitButton.disabled = false;
-            submitButton.textContent = 'Post';
-            return;
-        }
 
         const formData = new FormData(boardForm);
-        console.log("📝 FormData 전체:", [...formData.entries()]);
-        console.log("📍 선택한 location:", formData.get("location"));
-        console.log("📌 선택한 title:", formData.get("title"));
-        console.log("📆 선택한 date:", formData.get("date"));
-        console.log("🖼️ 이미지 파일:", formData.get("image"));
 
-        // 한글 자치구 → 영문 district_code 변환
-        const selectedDistrictName = formData.get("district_code");
-        const code = districtNameToCode[selectedDistrictName];
-        if (!code) {
-            alert("선택한 자치구의 코드 변환에 실패했습니다.");
-            return;
-        }
-        formData.set("district_code", code);
+//        // 한글 자치구 → 영문 district_code 변환
+//        const selectedDistrictName = formData.get("district_code");
+//        const code = districtNameToCode[selectedDistrictName];
+//        if (!code) {
+//            alert("선택한 자치구의 코드 변환에 실패했습니다.");
+//            return;
+//        }
+//        formData.set("district_code", code);
 
         // [개선] 버튼을 비활성화해서 중복 제출을 막습니다.
+        const submitButton = boardForm.querySelector('button[type="submit"]');
         submitButton.disabled = true;
         submitButton.textContent = 'Posting...';
 
