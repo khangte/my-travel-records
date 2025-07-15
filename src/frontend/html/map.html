@@ -34,12 +34,24 @@
           <button class="arrow" onclick="nextImage()">→</button>
         </div> -->
 
-        <div class="image-viewer">
+        <!-- <div class="image-viewer">
           <button class="arrow" onclick="prevImage()">←</button>
           <img id="viewerImage" alt="여행 이미지" style="display: none;" />
           <p id="noImageText">게시물을 작성해 이미지를 넣어보세요.</p>
           <button class="arrow" onclick="nextImage()">→</button>
+        </div> -->
+
+        <div class="viewer-header">
+          <button class="arrow" onclick="prevImage()">◀</button>
+          <div class="district-name" id="districtName">지역명</div>
+          <button class="arrow" onclick="nextImage()">▶</button>
         </div>
+
+        <div class="image-viewer">
+          <img id="viewerImage" alt="여행 이미지" style="display: none;" />
+          <p id="noImageText">게시물을 작성해 이미지를 넣어보세요.</p>
+        </div>
+
 
         <div class="district-name" id="districtName"></div>
 

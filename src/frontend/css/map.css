@@ -124,43 +124,57 @@ body {
   transform: translate(-50%, -50%);
 }
 
-
-.image-viewer {
+/* 🔽 새로 추가된 부분: 지역명 + 화살표 줄 정렬 */
+.viewer-header {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 80%;
-}
-
-.image-viewer p {
-  margin: auto;
-  color: gray;
-  font-size: 14px;
-  text-align: center;
-  padding: 20px;
-}
-
-
-.image-viewer img {
-  max-width: 200px;
-  max-height: 320px;
-  object-fit: contain;
-  margin: 0 10px;
-}
-
-.arrow {
-  font-size: 24px;
-  cursor: pointer;
-  padding: 0 10px;
-  background: none;
-  border: none;
+  gap: 10px;
+  margin-top: 30px;
 }
 
 .district-name {
   font-size: 16px;
-  margin: 8px 0;
-  text-align: center;
   font-weight: bold;
+  text-align: center;
+  color: #333;
+}
+
+/* 🔽 화살표 버튼 (◀ ▶) */
+.arrow {
+  font-size: 20px;
+  font-weight: bold;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #333;
+  padding: 4px;
+  transition: transform 0.2s ease;
+}
+
+.arrow:hover {
+  transform: scale(1.2);
+}
+
+.image-viewer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.image-viewer img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.image-viewer p {
+  color: gray;
+  font-size: 14px;
+  text-align: center;
+  padding: 20px;
 }
 
 .home-button {

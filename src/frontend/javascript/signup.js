@@ -10,20 +10,29 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // 아이디 중복 확인
   checkBtn.addEventListener("click", async () => {
-    const enteredId = userIdInput.value.trim();
-    if (!enteredId) {
+    const userid = userIdInput.value.trim();
+
+    if (!userid) {
       alert("아이디를 입력해주세요.");
       return;
     }
 
+    // 한글, 영어, 숫자만 허용
+    const allowedRegex = /^[a-zA-Z0-9]+$/;
+    if (!allowedRegex.test(userid)) {
+      alert("아이디는 영어, 숫자만 입력 가능합니다.");
+      return;
+    }
+
+
     try {
-      const response = await fetch(`/api/user/check-id?id=${encodeURIComponent(enteredId)}`);
+      const response = await fetch(`/api/user/check-id?id=${encodeURIComponent(userid)}`);
       const data = await response.json();
 
       if (response.ok && data.available) {
         alert("사용 가능한 아이디입니다.");
         isIdChecked = true;
-        lastCheckedId = enteredId;
+        lastCheckedId = userid;
       } else {
         alert(data.detail || "이미 존재하는 아이디입니다.");
         isIdChecked = false;
