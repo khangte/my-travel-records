@@ -193,9 +193,13 @@ document.addEventListener('DOMContentLoaded', () => {
             const data = await response.json();
 
             // 닉네임 입력창은 비워두되 placeholder로 기존 ID 표시
-            const displayName = data.nickname || data.id;
+            // const displayName = data.nickname || data.id;
             idInputElement.value = "";
-            idInputElement.placeholder = displayName;
+            idInputElement.defaultValue = "";
+            // idInputElement.placeholder = displayName;
+            idInputElement.placeholder = data.id
+            console.log("API에서 받은 프로필:", data);
+
 
             if (data.birth) {
                 birthDateInputElement.value = new Date(data.birth).toISOString().split('T')[0];
@@ -274,7 +278,7 @@ document.addEventListener('DOMContentLoaded', () => {
 //            // 200 응답을 파싱하도록 수정함.
 //            if (response.status === 204) {
 //                alert("정보가 성공적으로 수정되었습니다.");
-//                window.location.href = "/mypage02.html";
+//                window.location.href = "/mypage.html";
 //            } else {
 //                const errorData = await response.json().catch(() => ({}));
 //                throw new Error(errorData.detail || "정보 수정에 실패했습니다.");
@@ -295,7 +299,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             alert("정보가 성공적으로 수정되었습니다.");
-            window.location.href = "/mypage02.html"
+            window.location.href = "/mypage.html"
             ////////////////////////
 
         } catch (error) {
