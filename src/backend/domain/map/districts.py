@@ -21,7 +21,7 @@ def get_districts():
             reader = csv.DictReader(csvfile)
             for row in reader:
                 districts.append({
-                    "id": row["id"],
+                    "id": row["id"].lower(),
                     "display_name": row["display_name"],
                     "color": row["color"],
                     "value": row["value"],
