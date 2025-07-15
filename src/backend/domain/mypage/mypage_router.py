@@ -105,9 +105,3 @@ def read_user_stats(db: Session = Depends(get_db), current_user: User = Depends(
         "post_count": post_count,
         "visited_districts_count": visited_districts_count
     }
-
-
-@router.get("/check-id")
-def check_id(id: str, db: Session = Depends(get_db)):
-    user = db.query(User).filter(User.id == id).first()
-    return {"available": user is None}
