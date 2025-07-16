@@ -178,4 +178,9 @@ article {
     font-size: 1.4em;
     font-weight: bold;
     word-break: break-word;
+
+        /* 아래 추가되는 코드 */
+    white-space: nowrap;        /* 줄 바꿈 금지 */
+    overflow: hidden;           /* 넘치는 부분 숨기기 */
+    text-overflow: ellipsis;    /* 생략 부호(...) 표시 */
 }
