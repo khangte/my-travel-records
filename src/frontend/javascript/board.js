@@ -123,7 +123,16 @@ document.addEventListener('DOMContentLoaded', function() {
             submitButton.textContent = 'Post';
             return;
         }
+
         console.log("🔍 선택한 이미지:", file);
+        const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
+        if (file.size > MAX_FILE_SIZE) {
+            console.log(`[ERROR] 이미지 용량 초과: ${file.size} bytes`);
+            alert("이미지 용량이 너무 큽니다. 10MB 이하의 파일만 업로드할 수 있습니다.");
+            submitButton.disabled = false;
+            submitButton.textContent = 'Post';
+            return;
+        }
 
         // [개선] 버튼을 비활성화해서 중복 제출을 막습니다.
         const submitButton = boardForm.querySelector('button[type="submit"]');
