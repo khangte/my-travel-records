@@ -194,3 +194,20 @@ body {
   transform: scale(1.05);
   background: linear-gradient(to bottom, #eee, #ccc);
 }
+
+#mapContainer svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+#clipImage {
+  display: block;
+  opacity: 1;
+  z-index: 0;
+  pointer-events: none;
+}
+
+path {
+  cursor: pointer;
+}
