@@ -68,9 +68,23 @@ function showDistrictClipImage(svg, item, latestImage) {
   const image = document.createElementNS(svgNS, "image");
   image.setAttribute("id", `clipImage-${item.id}`);
   image.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", latestImage.img_url);
-  image.setAttribute("width", "1500");
-  image.setAttribute("height", "1500");
-  image.setAttribute("preserveAspectRatio", "xMidYMid slice");
+
+  // path 요소의 bounding box를 가져와 이미지 크기와 위치 설정
+  const pathElement = svg.querySelector(`#${item.id}`);
+  const bbox = pathElement.getBBox(); // path의 bounding box를 구함
+
+  // path의 bounding box에 맞춰서 이미지 크기 조정
+  const width = bbox.width;
+  const height = bbox.height;
+  const x = bbox.x;
+  const y = bbox.y;
+
+  // 이미지 크기와 위치를 path에 맞게 설정
+  image.setAttribute("width", width);
+  image.setAttribute("height", height);
+  image.setAttribute("x", x);  // 이미지의 x 위치를 path의 x 위치에 맞게 설정
+  image.setAttribute("y", y);  // 이미지의 y 위치를 path의 y 위치에 맞게 설정
+  image.setAttribute("preserveAspectRatio", "xMidYMid slice");  // 비율을 유지하면서 크기 조정
   image.setAttribute("clip-path", `url(#${clipId})`);
   image.style.pointerEvents = "none";  // <-- 핵심: 클릭 막기
 
