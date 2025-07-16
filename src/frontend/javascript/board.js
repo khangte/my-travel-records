@@ -19,7 +19,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
     fetch('/api/districts')
         .then(response => {
-            if (!response.ok) throw new Error('자치구 목록 로딩 실패');
+            if (!response.ok) {
+                console.log(`[ERROR] 서버 응답 실패 - 상태 코드: ${response.status}`);
+                throw new Error('자치구 목록 로딩 실패');
+            }
             return response.json();
         })
         .then(districts => {
@@ -27,11 +30,21 @@ document.addEventListener('DOMContentLoaded', function() {
             districts.forEach(district => {
                 const option = document.createElement('option');
                 option.value = district.display_name;  // "동작구"처럼 한글값
-                option.textContent = district.display_name; // 화면에 보여질 text도 한글값 (display_name)
+                option.textContent = district.display_name;
                 locationSelect.appendChild(option);
             });
         })
-        .catch(error => console.error('자치구 목록 로딩 오류:', error));
+        .catch(error => {
+            if (error.name === 'TypeError') {
+                console.log("[ERROR] 네트워크 오류 또는 서버 접속 불가:", error);
+            } else if (error.message === '자치구 목록 로딩 실패') {
+                console.log("[ERROR] HTTP 응답은 있었지만 성공하지 않음 (4xx/5xx)");
+            } else {
+                console.log("[ERROR] 알 수 없는 오류 발생:", error);
+            }
+            console.error("자치구 목록 로딩 오류:", error);
+        });
+
 
     // 오늘 날짜 (yyyy-mm-dd 형식으로)
     function getTodayDateString() {
