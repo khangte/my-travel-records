@@ -105,6 +105,8 @@ document.addEventListener('DOMContentLoaded', function() {
     boardForm.addEventListener('submit', function(event) {
         event.preventDefault(); // 기본 폼 제출(새로고침) 동작을 막습니다.
 
+        const submitButton = boardForm.querySelector('button[type="submit"]');
+
         const token = localStorage.getItem('access_token');
         if (!token) {
             console.log("[ERROR] 로그인 토큰 없음 → /login.html 이동");
@@ -136,7 +138,6 @@ document.addEventListener('DOMContentLoaded', function() {
 //        }
 
         // [개선] 버튼을 비활성화해서 중복 제출을 막습니다.
-        const submitButton = boardForm.querySelector('button[type="submit"]');
         submitButton.disabled = true;
         submitButton.textContent = 'Posting...';
 
