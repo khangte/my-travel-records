@@ -23,8 +23,7 @@
 
 
 ## 서비스 플로우
-![alt text](assets/systemarchitecture.png)
-
+![alt text](assets/serviceflow.png)
 
 ## 구현화면
 
