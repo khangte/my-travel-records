@@ -181,3 +181,4 @@ src/backend/migrations/
 profile_ex.png
 .gitignore
 uploads/
+.DS_Store
